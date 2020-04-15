@@ -1,3 +1,22 @@
+FROM node:6.17.1-alpine
+
+EXPOSE 3000
+
+RUN apk add --update tini \
+    && mkdir -p /usr/src/app
+
+WORKDIR /usr/src/app
+
+COPY package.json package.json
+
+RUN npm install \
+    && npm cache clean --force
+
+COPY . .
+
+CMD ["/sbin/tini", "--", "node", "./bin/www"]
+
+
 # use this empty Dockerfile to build your assignment
 
 # This dir contains a Node.js app, you need to get it running in a container
