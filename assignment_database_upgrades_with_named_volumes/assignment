@@ -1,0 +1,28 @@
+docker container run --name postgres-9-6-1 --rm -p 5432:5432 -v psql-data:/var/lib/postgresql/data postgres:9.6.1
+
+(exit)
+
+docker container run --name postgres-9-6-2 --rm -p 5432:5432 -v psql-data:/var/lib/postgresql/data postgres:9.6.2
+
+
+
+--------- OR, with detach and getting the logs afterwards ---------
+
+
+
+docker container run -d --name postgres-9-6-1 --rm -p 5432:5432 -v psql-data:/var/lib/postgresql/data postgres:9.6.1
+
+docker container logs -f postgres-9-6-1
+
+(exit)
+
+docker container run -d --name postgres-9-6-2 --rm -p 5432:5432 -v psql-data:/var/lib/postgresql/data postgres:9.6.2
+
+docker container logs -f postgres-9-6-2
+
+(
+newer version would need to set a password:
+POSTGRES_PASSWORD=mypasswd
+OR ignore it like this:
+POSTGRES_HOST_AUTH_METHOD=trust
+)
