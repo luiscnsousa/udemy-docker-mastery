@@ -1,11 +1,9 @@
-# create your drupal and postgres config here, based off the last assignment
-version: '2'
+#Stacks need compose file in version 3. Stacks with secrets need version 3.1
+version: '3.1'
 
 services:
   drupal:
-    image: custom-drupal
-    build: .
-
+    image: drupal:8.2
     ports:
       - 8080:80
     volumes:
@@ -18,9 +16,11 @@ services:
     environment:
       POSTGRES_DB: drupal
       POSTGRES_USER: user
-      POSTGRES_PASSWORD: pass
+      POSTGRES_PASSWORD_FILE: /run/secrets/psql-pw
     volumes:
       - drupal-data:/var/lib/postgresql/data
+    secrets:
+      - psql-pw
 
 volumes:
   drupal-modules:
@@ -28,4 +28,7 @@ volumes:
   drupal-sites:
   drupal-themes:
   drupal-data:
-    
+
+secrets:
+  psql-pw:
+    external: true
